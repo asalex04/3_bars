@@ -10,13 +10,13 @@ def load_data(filepath):
 
 
 def get_biggest_bar(size):
-    max_bar = max(bars,key=lambda x: x['Cells']['SeatsCount'])
+    max_bar = max(bars, key=lambda x: x['Cells']['SeatsCount'])
     ind_max = max_bar['Number']
     return ind_max
 
 
 def get_smallest_bar(size):
-    min_bar = min(bars,key=lambda x: x['Cells']['SeatsCount'])
+    min_bar = min(bars, key=lambda x: x['Cells']['SeatsCount'])
     ind_min = min_bar['Number']
     return ind_min
 
@@ -27,8 +27,10 @@ def get_closest_bar(distance):
     min_dist = 99999
     index = 0
     for ind in range(len(bars)):
-        dist = ((bars[ind]['Cells']['geoData']['coordinates'][0] - my_longitude)**2 +
-                (bars[ind]['Cells']['geoData']['coordinates'][1] - my_latitude)**2)**0.5
+        dist = ((bars[ind]['Cells']['geoData']['coordinates'][0] -
+                my_longitude)**2 +
+                (bars[ind]['Cells']['geoData']['coordinates'][1] -
+                my_latitude)**2)**0.5
         if dist < min_dist:
             min_dist = dist
             index = ind
@@ -42,12 +44,15 @@ if __name__ == '__main__':
         big_bar = get_biggest_bar(bars) - 1
         small_bar = get_smallest_bar(bars) - 1
         closest_bar = get_closest_bar(bars)
-        print('Самый большой бар: ', bars[big_bar]['Cells']['Name']
-              + ' имеет ' + str(bars[big_bar]['Cells']['SeatsCount'])+ ' мест')
-        print('Самый маленький бар: ', bars[small_bar]['Cells']['Name']
-              + ' имеет ' + str(bars[small_bar]['Cells']['SeatsCount'])+ ' мест')
-        print("Самый близкий к вам: " + bars[closest_bar]['Cells']["Name"] + " имеет "
-              + str(bars[closest_bar]['Cells']["SeatsCount"]) + " мест\n"
+        print('Самый большой бар: ', bars[big_bar]['Cells']['Name'] +
+              ' имеет ' + str(bars[big_bar]['Cells']['SeatsCount']) +
+              ' мест')
+        print('Самый маленький бар: ', bars[small_bar]['Cells']['Name'] +
+              ' имеет ' + str(bars[small_bar]['Cells']['SeatsCount']) +
+              ' мест')
+        print("Самый близкий к вам: " + bars[closest_bar]['Cells']["Name"] +
+              " имеет " + str(bars[closest_bar]['Cells']["SeatsCount"]) +
+              " мест\n"
               'Находится по адресу: ', bars[closest_bar]['Cells']['Address'])
 
 
