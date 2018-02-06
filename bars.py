@@ -5,34 +5,32 @@ from sys import argv
 def load_data(filepath):
     with open(filepath, 'r', encoding='utf-8') as json_file:
         bars = json.load(json_file)
-        return bars
+    return bars
 
 
 def get_biggest_bar(filepath):
     max_bar = max(bars,key=lambda x: x['Cells']['SeatsCount'])
-    Ind_max = max_bar['Number']
-    return Ind_max
+    ind_max = max_bar['Number']
+    return ind_max
 
 
 def get_smallest_bar(filepath):
     min_bar = min(bars,key=lambda x: x['Cells']['SeatsCount'])
-    Ind_min = min_bar['Number']
-    return Ind_min
+    ind_min = min_bar['Number']
+    return ind_min
 
 
 
 def get_closest_bar(filepath):
     my_longitude = float(input('введите значение долготы:'))
     my_latitude = float(input('введите значение широты:'))
-    min_Dist = 99999
+    min_dist = 99999
     index = 0
     for i in range(len(bars)):
-        s = ((bars[i]['Cells']['geoData']['coordinates'][0] -
-                my_longitude)**2 +
-                (bars[i]['Cells']['geoData']['coordinates'][1] -
-                my_latitude)**2)**0.5
-        if s < min_Dist:
-            min_Dist = s
+        dist = ((bars[i]['Cells']['geoData']['coordinates'][0] - my_longitude)**2 +
+                (bars[i]['Cells']['geoData']['coordinates'][1] - my_latitude)**2)**0.5
+        if dist < min_dist:
+            min_dist = dist
             index = i
     return index
 
@@ -45,9 +43,9 @@ if __name__ == '__main__':
         small_bar = get_smallest_bar(bars) - 1
         closest_bar = get_closest_bar(bars)
         print('Самый большой бар: ', bars[big_bar]['Cells']['Name']
-              +' имеет '+ str(bars[big_bar]['Cells']['SeatsCount'])+ ' мест')
+              + ' имеет ' + str(bars[big_bar]['Cells']['SeatsCount'])+ ' мест')
         print('Самый маленький бар: ', bars[small_bar]['Cells']['Name']
-              +' имеет '+ str(bars[small_bar]['Cells']['SeatsCount'])+ ' мест')
+              + ' имеет ' + str(bars[small_bar]['Cells']['SeatsCount'])+ ' мест')
         print("Самый близкий к вам: " + bars[closest_bar]['Cells']["Name"] + " имеет "
               + str(bars[closest_bar]['Cells']["SeatsCount"]) + " мест\n"
               'Находится по адресу: ', bars[closest_bar]['Cells']['Address'])
