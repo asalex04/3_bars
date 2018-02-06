@@ -9,19 +9,19 @@ def load_data(filepath):
     return bars
 
 
-def get_biggest_bar(data):
+def get_biggest_bar(size):
     max_bar = max(bars,key=lambda x: x['Cells']['SeatsCount'])
     ind_max = max_bar['Number']
     return ind_max
 
 
-def get_smallest_bar(data):
+def get_smallest_bar(size):
     min_bar = min(bars,key=lambda x: x['Cells']['SeatsCount'])
     ind_min = min_bar['Number']
     return ind_min
 
 
-def get_closest_bar(data):
+def get_closest_bar(distance):
     my_longitude = float(input('введите значение долготы:'))
     my_latitude = float(input('введите значение широты:'))
     min_dist = 99999
