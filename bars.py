@@ -2,36 +2,36 @@ import json
 import os
 from sys import argv
 
+
 def load_data(filepath):
     with open(filepath, 'r', encoding='utf-8') as json_file:
         bars = json.load(json_file)
     return bars
 
 
-def get_biggest_bar(filepath):
+def get_biggest_bar(data):
     max_bar = max(bars,key=lambda x: x['Cells']['SeatsCount'])
     ind_max = max_bar['Number']
     return ind_max
 
 
-def get_smallest_bar(filepath):
+def get_smallest_bar(data):
     min_bar = min(bars,key=lambda x: x['Cells']['SeatsCount'])
     ind_min = min_bar['Number']
     return ind_min
 
 
-
-def get_closest_bar(filepath):
+def get_closest_bar(data):
     my_longitude = float(input('введите значение долготы:'))
     my_latitude = float(input('введите значение широты:'))
     min_dist = 99999
     index = 0
-    for i in range(len(bars)):
-        dist = ((bars[i]['Cells']['geoData']['coordinates'][0] - my_longitude)**2 +
-                (bars[i]['Cells']['geoData']['coordinates'][1] - my_latitude)**2)**0.5
+    for ind in range(len(bars)):
+        dist = ((bars[ind]['Cells']['geoData']['coordinates'][0] - my_longitude)**2 +
+                (bars[ind]['Cells']['geoData']['coordinates'][1] - my_latitude)**2)**0.5
         if dist < min_dist:
             min_dist = dist
-            index = i
+            index = ind
     return index
 
 
