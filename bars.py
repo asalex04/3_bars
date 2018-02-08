@@ -22,7 +22,7 @@ def get_smallest_bar(size):
 
 
 def distance(x, y, x1, y1):
-    return (((x - x1) ** 2) + ((y - y1) ** 2) ** 0.5)
+    return ((x - x1) ** 2 + (y - y1) ** 2) ** 0.5
 
 
 def get_closest_bar(bars, longitude, latitude):
@@ -39,8 +39,6 @@ if __name__ == '__main__':
         bars = load_data(filepath)
     except FileNotFoundError:
         exit('File not found')
-    except IndexError:
-        exit('Index is out of range')
     try:
         my_long = float(input('введите значение долготы:'))
         my_lat = float(input('введите значение широты:'))
