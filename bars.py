@@ -22,7 +22,8 @@ def get_smallest_bar(size):
 
 
 def distance(x, y, x1, y1):
-    return ((x - x1) ** 2 + (y - y1) ** 2) ** 0.5
+    dist_count = ((x - x1) ** 2 + (y - y1) ** 2) ** 0.5
+    return dist_count
 
 
 def get_closest_bar(bars, longitude, latitude):
@@ -59,6 +60,5 @@ if __name__ == '__main__':
             bars[get_closest_bar(bars, my_long, my_lat)]['Cells']['Address']
         )
     )
-
 
 
