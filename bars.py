@@ -12,6 +12,8 @@ def load_data(filepath):
 def get_biggest_bar(size):
     max_bar = max(bars, key=lambda x: x['Cells']['SeatsCount'])
     return max_bar['Number']-1
+    # используем номер бара как индекс,
+    # для удобства вывода любой информации о баре
 
 
 def get_smallest_bar(size):
@@ -19,18 +21,15 @@ def get_smallest_bar(size):
     return min_bar['Number']-1
 
 
-def get_closest_bar(distance):
-    min_dist = 99999
-    index = 0
-    for ind in range(len(bars)):
-        dist = ((bars[ind]['Cells']['geoData']['coordinates'][0] -
-                 my_longitude) ** 2 +
-                (bars[ind]['Cells']['geoData']['coordinates'][1] -
-                 my_latitude) ** 2) ** 0.5
-        if dist < min_dist:
-            min_dist = dist
-            index = ind
-        return index
+def distance(x, y, x1, y1):
+    return (((x - x1) ** 2) + ((y - y1) ** 2) ** 0.5)
+
+
+def get_closest_bar(bars, longitude, latitude):
+    min_dist = min(bars, key=lambda x: distance(longitude, latitude,
+                   x['Cells']['geoData']['coordinates'][0],
+                   x['Cells']['geoData']['coordinates'][1]))
+    return min_dist['Number']-1
 
 
 if __name__ == '__main__':
@@ -38,14 +37,15 @@ if __name__ == '__main__':
     try:
         filepath = argv[1]
         bars = load_data(filepath)
-        my_longitude = float(input('введите значение долготы:'))
-        my_latitude = float(input('введите значение широты:'))
     except FileNotFoundError:
         exit('File not found')
     except IndexError:
-        print('Index is out of range')
+        exit('Index is out of range')
+    try:
+        my_long = float(input('введите значение долготы:'))
+        my_lat = float(input('введите значение широты:'))
     except ValueError:
-        print('Invalid argument value')
+        exit('Invalid argument value')
     print(
         'Самый большой бар: {} имеет {} мест\n'
         'Самый маленький бар: {} имеет {} мест\n'
@@ -55,9 +55,10 @@ if __name__ == '__main__':
             bars[get_biggest_bar(bars)]['Cells']['SeatsCount'],
             bars[get_smallest_bar(bars)]['Cells']['Name'],
             bars[get_smallest_bar(bars)]['Cells']['SeatsCount'],
-            bars[get_closest_bar(bars)]['Cells']["Name"],
-            bars[get_closest_bar(bars)]['Cells']["SeatsCount"],
-            bars[get_closest_bar(bars)]['Cells']['Address']
+            bars[get_closest_bar(bars, my_long, my_lat)]['Cells']["Name"],
+            bars[get_closest_bar(bars, my_long, my_lat)]['Cells']
+                                                        ["SeatsCount"],
+            bars[get_closest_bar(bars, my_long, my_lat)]['Cells']['Address']
         )
     )
 
