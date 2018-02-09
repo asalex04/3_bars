@@ -9,6 +9,12 @@ def load_data(filepath):
     return bars
 
 
+def print_inf(bars, index):
+    print('Название: ', bars[index]['Cells']['Name'],
+          '\nКолличество мест: ', bars[index]['Cells']['SeatsCount'],
+          '\nАдрес: ', bars[index]['Cells']['Address'])
+
+
 def get_biggest_bar(size):
     index_max_bar = max(bars, key=lambda x: x['Cells']['SeatsCount'])
     return index_max_bar['Number']-1
@@ -40,23 +46,17 @@ if __name__ == '__main__':
     except FileNotFoundError:
         exit('Файл не найден')
     try:
-        my_long = float(input('введите значение долготы:'))
-        my_lat = float(input('введите значение широты:'))
+        my_long = float(input('введите значение долготы: '))
+        my_lat = float(input('введите значение широты: '))
     except ValueError:
         exit('Вы указали неверные координаты')
-    print(
-        'Самый большой бар: {} имеет {} мест\n'
-        'Самый маленький бар: {} имеет {} мест\n'
-        'Самый близкий к Вам: {} имеет {} мест\n'
-        'Находится по адресу: {}'.format(
-            bars[get_biggest_bar(bars)]['Cells']['Name'],
-            bars[get_biggest_bar(bars)]['Cells']['SeatsCount'],
-            bars[get_smallest_bar(bars)]['Cells']['Name'],
-            bars[get_smallest_bar(bars)]['Cells']['SeatsCount'],
-            bars[get_closest_bar(bars, my_long, my_lat)]['Cells']["Name"],
-            bars[get_closest_bar(bars, my_long, my_lat)]['Cells']["SeatsCount"],
-            bars[get_closest_bar(bars, my_long, my_lat)]['Cells']['Address']
-        )
-    )
+    print('\nСамый большой бар:')
+    print_inf(bars, get_biggest_bar(bars))
+    print('\nСамый маленький бар:')
+    print_inf(bars, get_smallest_bar(bars))
+    print('\nСамый близкий к Вам:')
+    print_inf(bars, get_closest_bar(bars, my_long, my_lat))
+
+
 
 
