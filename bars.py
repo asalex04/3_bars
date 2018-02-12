@@ -1,6 +1,6 @@
 import json
 import os
-from sys import argv
+import sys
 
 
 def load_data(filepath):
@@ -9,19 +9,19 @@ def load_data(filepath):
     return bars
 
 
-def print_inf(bars, index):
-    print('Название: ', bars[index]['Cells']['Name'],
-          '\nКолличество мест: ', bars[index]['Cells']['SeatsCount'],
-          '\nАдрес: ', bars[index]['Cells']['Address'])
+def print_inf(data, index):
+    print('Название: ', data[index]['Cells']['Name'],
+          '\nКолличество мест: ', data[index]['Cells']['SeatsCount'],
+          '\nАдрес: ', data[index]['Cells']['Address'])
 
 
-def get_biggest_bar(size):
-    index_max_bar = max(bars, key=lambda x: x['Cells']['SeatsCount'])
+def get_biggest_bar(data):
+    index_max_bar = max(data, key=lambda x: x['Cells']['SeatsCount'])
     return index_max_bar['Number']-1
 
 
-def get_smallest_bar(size):
-    index_min_bar = min(bars, key=lambda x: x['Cells']['SeatsCount'])
+def get_smallest_bar(data):
+    index_min_bar = min(data, key=lambda x: x['Cells']['SeatsCount'])
     return index_min_bar['Number']-1
 
 
@@ -30,8 +30,8 @@ def calc_distance(x, y, x1, y1):
     return dist_count
 
 
-def get_closest_bar(bars, longitude, latitude):
-    min_dist = min(bars, key=lambda x: calc_distance(longitude,
+def get_closest_bar(data, longitude, latitude):
+    min_dist = min(data, key=lambda x: calc_distance(longitude,
                                                      latitude,
                    x['Cells']['geoData']['coordinates'][0],
                    x['Cells']['geoData']['coordinates'][1]))
@@ -39,15 +39,16 @@ def get_closest_bar(bars, longitude, latitude):
 
 
 if __name__ == '__main__':
-
     try:
-        filepath = argv[1]
+        filepath = sys.argv[1]
         bars = load_data(filepath)
+    except ValueError:
+        exit('Укажите путь до json файла')
     except FileNotFoundError:
         exit('Файл не найден')
     try:
-        my_long = float(input('введите значение долготы: '))
-        my_lat = float(input('введите значение широты: '))
+        user_long = float(input('введите значение долготы: '))
+        user_lat = float(input('введите значение широты: '))
     except ValueError:
         exit('Вы указали неверные координаты')
     print('\nСамый большой бар:')
@@ -55,7 +56,7 @@ if __name__ == '__main__':
     print('\nСамый маленький бар:')
     print_inf(bars, get_smallest_bar(bars))
     print('\nСамый близкий к Вам:')
-    print_inf(bars, get_closest_bar(bars, my_long, my_lat))
+    print_inf(bars, get_closest_bar(bars, user_long, user_lat))
 
 
 
