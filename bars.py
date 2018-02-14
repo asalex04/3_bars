@@ -8,14 +8,20 @@ def load_data(filepath):
     return bars
 
 
+def print_func(bar):
+    print('Название: ', bar['Name'],
+          '\nКолличество мест: ', bar['SeatsCount'],
+          '\nАдрес: ', bar['Address'])
+
+
 def get_biggest_bar(bar_name):
     max_bar = max(bar_name, key=lambda x: x['SeatsCount'])
-    return max_bar['Name']
+    return max_bar
 
 
 def get_smallest_bar(bar_name):
     min_bar = min(bar_name, key=lambda x: x['SeatsCount'])
-    return min_bar['Name']
+    return min_bar
 
 
 def calc_distance(x, y, x1, y1):
@@ -29,7 +35,7 @@ def get_closest_bar(bar_name, longitude, latitude):
         latitude,
         x['geoData']['coordinates'][0],
         x['geoData']['coordinates'][1]))
-    return min_dist['Name']
+    return min_dist
 
 
 if __name__ == '__main__':
@@ -43,6 +49,9 @@ if __name__ == '__main__':
         user_lat = float(input('введите значение широты: '))
     except ValueError:
         exit('Вы указали неверные координаты')
-    print('\nСамый большой бар:', get_biggest_bar(bars))
-    print('\nСамый маленький бар:', get_smallest_bar(bars))
-    print('\nСамый близкий к Вам:', get_closest_bar(bars, user_long, user_lat))
+    print('\nСамый большой бар:')
+    print_func(get_biggest_bar(bars))
+    print('\nСамый маленький бар:')
+    print_func(get_smallest_bar(bars))
+    print('\nСамый близкий к Вам:')
+    print_func(get_closest_bar(bars, user_long, user_lat))
